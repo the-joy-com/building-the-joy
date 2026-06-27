@@ -180,7 +180,7 @@ This is the no-debt shape, not an optimization bolted on later: outbound capture
   - **Re-running `/login` is safe and the latest code always wins.** Requesting a new code **invalidates any previously issued one** — only the most recently emailed code is ever valid, so two live codes can never float around at once (a half-entered flow that gets re-started just abandons cleanly). Running `/login` while **already authed** is a no-op that simply reports the current `/status` ("already authed as …") rather than starting a fresh email prompt — there's only one address, so re-authing buys nothing.
 - **`/logout` / `/status`:** `/logout` drops the session token/cookie and returns the terminal to the unauthed prompt; running it again when **already unauthed is an idempotent no-op** — it just confirms "not logged in", never errors and never does anything destructive. `/status` prints the current connection state (online/offline, matching the §6 indicator) and session state (authed as which email, or unauthed). All three are listed by `/help` alongside `/clear`, so the auth surface is discoverable from inside the terminal without a screen.
 
-### 10. end-user QA
+### 10. end-user QA for the shell iteration
 
 Run these in order on both laptop and phone; the shell iteration is done when every box checks.
 
@@ -218,3 +218,13 @@ Run these in order on both laptop and phone; the shell iteration is done when ev
 - [ ] A connectivity indicator is pinned to the bottom-left corner: **green** when online, **red** when offline. Going into airplane mode flips it to red; reconnecting flips it back to green — tracking the same connectivity the outbox drains on (§5).
 
 When every box checks, this iteration is done: a real shell on real metal, real auth, and lines reliably received and acked — a full-stack slice, not a front-end. The next iteration is the **agent**: what The Joy actually does with a received line once it has it (today it just replies with a hardcoded, auth-aware stand-in).
+
+## the second iteration to come: give a ghost to the shell
+
+before any of the features listed in our [roadmap](../ROADMAP.md) is implemented, we need to have a context-aware helpful receiving end wired, i.e., something that:
+
+- writes inputs and persists them
+- takes the history of _all_ these inputs over time (long-term memory from day 0) into consideration before answering
+- answers as with the right persona: no pacification scripts, objective data, no performed empathetic fillers, no sycophancy, etc.
+
+... only then we have the bedrock to implement any of the features listed on the roadmap, but first: the shell!
